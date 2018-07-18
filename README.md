@@ -11,3 +11,6 @@ Code interview problems solved in Python and Java.
 - [x] 用两个栈实现队列
 - [x] 两个队列实现栈
 - [x] 斐波那契数列
+- [x] 跳台阶
+- [x] 变态跳台阶
+- [x] 旋转数组的最小数字
