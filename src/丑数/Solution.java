@@ -1,7 +1,6 @@
 package src.丑数;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
 
 /**
  * 把只包含质因子 2、3和5 的数称作丑数（Ugly Number）。
@@ -51,49 +50,28 @@ public class Solution {
     public int GetUglyNumber_Solution(int index) {
         // 如果 index < 7，则本身即为丑数: 1, 2, 3, 5
         if (index < 7) return index;
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        list.add(1);
 
-        Queue<Integer> q2 = new LinkedList<>();
-        Queue<Integer> q3 = new LinkedList<>();
-        Queue<Integer> q5 = new LinkedList<>();
+        int i2=0,i3=0,i5=0;
+        while (list.size() < index) {
+            int m2 = list.get(i2) * 2;
+            int m3 = list.get(i3) * 3;
+            int m5 = list.get(i5) * 5;
+            // 获取最小值，作为当前的丑数
+            int min = Math.min(m2, Math.min(m3, m5));
+            list.add(min);
 
-        int curUglyNumber = 1;
-        q2.offer(2);
-        q2.offer(3);
-        q5.offer(5);
-
-        int count = 1;
-        while (count < index) {
-            // 3个队列中选择最小的
-            int min2 = q2.peek();
-            int min3 = q3.peek();
-            int min5 = q5.peek();
-
-            int curMin = 0;
-            Queue<Integer> curMinQueue = null;
-            if (min2 < min3 && min2 < min5) {
-                curMin = min2;
-                curMinQueue = q2;
-            } else if (min2 < min3) {
-                curMin = min5;
-                curMinQueue = q5;
-            } else {
-                curMin = min3;
-                curMinQueue = q3;
-            }
-
-            // 当前最小值分别乘以2，3，5，加入到对应的队列，同时丑数记录为 curMin
-            curUglyNumber = curMin;
-            count++;
-            q2.offer(curMin * 2);
-            q3.offer(curMin * 3);
-            q5.offer(curMin * 5);
-            curMinQueue.poll();
+            // 去除重复值
+            if (m2 == min) i2++;
+            if (m3 == min) i3++;
+            if (m5 == min) i5++;
         }
-        return curUglyNumber;
+        return list.get(index - 1);
     }
 
     public static void main(String[] args) {
-        int result = new Solution().GetUglyNumber_Solution(7);
+        int result = new Solution().GetUglyNumber_Solution(9);
         System.out.println(result);
     }
 }
